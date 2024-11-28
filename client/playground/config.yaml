@@ -1,0 +1,85 @@
+# User configuration
+user:
+  username: user1  # Replace with your username
+  output_paths:
+    keys: "playground/keys"
+    data: "playground/data"
+    results: "playground/results"
+
+# Configuration for launching cloud resources
+launch:
+    # The absolute path to your Azure configuraton
+    # This needs to be an absolute path
+    azure_config: ${MC2_CLIENT_HOME}/playground/azure.yaml
+
+    # # Manually specify the IP/uname/ssh_key of the head node or workers.
+    # # If these values exist, they will override any values in `azure_config`.
+    # Consequently, the `launch` and `stop` commands will do nothing.
+    head:
+       ip: 0.0.0.0
+    #    username:
+    #    ssh_key:
+    workers:
+     - ip: 0.0.0.0
+    #    username:
+    #    ssh_key:
+
+    # Whether to launch a cluster of VMs
+    cluster: false
+
+    # Whether to launch Azure blob storage
+    storage: false
+
+    # Whether to launch a storage container
+    container: false
+# Configuration for launching cloud resources
+# cluster:
+#   name: "local_cluster"
+#   head_addr: "localhost"
+#   workers:
+#     - "localhost"
+#   simulation: true
+
+# Commands to start compute service
+start:
+    # Commands to run on head node
+    # This command is used to start the Opaque SQL service
+    head:
+      - cd /mc2/opaque-sql; build/sbt run
+
+    # Commands to run on worker nodes
+    # For this quickstart there is only one node - no worker nodes
+    workers: []
+
+
+# Computation configuration
+run:
+  compute: "opaque"
+  app_name: "Opaque SQL Quickstart"
+  script: "playground/opaque_sql_demo.scala"
+
+# Configuration for `mc2 upload`
+upload:
+  data_files:
+    - "playground/data/diabetes_data.csv"
+
+# Configuration for downloading results
+download:
+  result_files:
+    - "playground/results/opaque_sql_result.enc"
+
+
+# Configuration for stopping services
+stop:
+
+# Configuration for deleting Azure resources
+teardown:
+    # Whether to terminate launched VMs
+    cluster: false
+
+    # Whether to terminate created Azure blob storage
+    storage: false
+
+    # Whether to terminate created storage container
+    container: false
+    resource_group: false
